@@ -1,0 +1,15 @@
+{
+  "name": "rxjs-braziljs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "example1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "rxjs": "^6.3.3"
+  }
+}
