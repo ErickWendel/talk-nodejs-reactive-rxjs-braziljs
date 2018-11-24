@@ -32,26 +32,25 @@ function getUser(username, callback) {
 }
 
 (function main() {
-
     const getAddressObs = Rx.bindNodeCallback(getAddress)
     const getPhoneObs = Rx.bindNodeCallback(getPhone)
     const getUserObs = Rx.bindNodeCallback(getUser)
-    const concatObj = (item) => map(i => Object.assign({}, i, item))
+    const concatObj = (prev) => map(current => Object.assign({}, current, prev))
 
     const stdin = process.openStdin()
     console.log('Digite um nome para pesquisar um usuario')
     Rx.fromEvent(stdin, 'data')
         .pipe(switchMap(data => getUserObs(data.toString().trim())))
         .pipe(
-            switchMap(user =>
-                getAddressObs(user.id)
-                .pipe(concatObj(user))
+            switchMap(prev =>
+                getAddressObs(prev.id)
+                .pipe(concatObj(prev))
             )
         )
         .pipe(
-            switchMap(user =>
-                getPhoneObs(user.id)
-                .pipe(concatObj(user))
+            switchMap(prev =>
+                getPhoneObs(prev.id)
+                .pipe(concatObj(prev))
             )
         )
         .pipe(
@@ -64,3 +63,4 @@ function getUser(username, callback) {
         .subscribe(console.log)
 
 })()
+
